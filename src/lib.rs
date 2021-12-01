@@ -69,7 +69,7 @@ pub fn transfer_mvv_data() {
         println!("{}",earliest_date);
         earliest_date.push_str("Z");
     } else {
-        let date = chrono::Utc.timestamp(0, 0);
+        let date = chrono::Local.timestamp(0, 100);
         earliest_date = date.to_string().replace(" ", "T")[..23].to_owned();
         earliest_date.push_str("Z");
     }
