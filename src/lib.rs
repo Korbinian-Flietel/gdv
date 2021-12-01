@@ -37,7 +37,7 @@ pub fn transfer_mvv_data() {
     
     let ts_id_no2_a = "3558a2dc-35a7-40af-a8c6-2d31772f58ca".to_string();
     let ts_id_no2_b = "caa4b523-5dec-469c-8817-81cfeb29c5d7".to_string();
-    let ts_id_pm10  = "e7dc2f27-726f-4f0d-88fa-92e513e3a7da".to_string();
+    let ts_id_pm10  = "e7fc2f27-726f-4f0d-88fa-92e513e3a7da".to_string();
     let ts_id_so2   = "ebcdbeb2-98d0-456a-94fd-cd131770ab99".to_string();
     let ts_id_o3    = "300e86c7-1e18-4c73-9824-8f2053118692".to_string();
     let ts_id_co    = "77926f27-f648-4da7-8922-0be18b1b9d9f".to_string();
