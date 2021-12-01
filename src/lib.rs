@@ -3,7 +3,7 @@ use std::io::Read;
 
 use std::collections::HashMap;
 use chrono::TimeZone;
-use mongodb::{bson::{doc, Document}, sync::Client};
+use mongodb::{bson::doc, sync::Client};
 use serde::{Deserialize, Serialize};
 
 
@@ -120,7 +120,7 @@ pub fn transfer_mvv_data() {
     }
 }
 
-pub fn get_data(t: &String, fr: Option<String>, to: Option<String>) -> Option<Vec<Payload>> {
+pub fn get_data(t: &String, _fr: Option<String>, _to: Option<String>) -> Option<Vec<Payload>> {
     let conn = create_db_conn("mongodb://Nagel:xL8NyJYnnKkuBM4WaVz8NVsGTg@149.172.144.70:27017");
 
     let db = conn.database("gdv");
