@@ -1,1 +1,1 @@
-web: ROCKET_PORT=$PORT ROCKET_KEEP_ALIVE=0 ./target/release/gdv
+web: ROCKET_PORT=$PORT ROCKET_KEEP_ALIVE=0 ./target/release/gdv-api
