@@ -18,6 +18,7 @@ pub struct TimeSeries {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Payload {
+    pub city: String,
     pub timeSeriesId: String,
     pub timeStamp: i64,
     pub value: f64,
