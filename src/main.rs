@@ -11,7 +11,8 @@ fn index() -> &'static str {
 
 #[get("/get_mvv_data?<typ>&<from>&<to>")]
 fn get_mvv_data(typ: String, from: Option<String>, to: Option<String>) -> String {
-    let v = get_data(&typ, from, to);
+    let x = typ.split(",").collect();
+    let v = get_data(x, from, to);
     match v {
         Some(t) => serde_json::to_string(&t).unwrap(),
         None => format!("No such air property named: \"{}\" in mvv Data!", typ),

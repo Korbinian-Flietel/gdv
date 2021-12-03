@@ -24,7 +24,7 @@ pub struct Payload {
     pub value: f64,
 }
 
-pub fn get_data(t: &String, _fr: Option<String>, _to: Option<String>) -> Option<Vec<Payload>> {
+pub fn get_data(t: Vec<&str>, _fr: Option<String>, _to: Option<String>) -> Option<Vec<Payload>> {
     let conn = create_db_conn("mongodb://Nagel:xL8NyJYnnKkuBM4WaVz8NVsGTg@149.172.144.70:27017");
 
     let db = conn.database("gdv");
@@ -32,7 +32,10 @@ pub fn get_data(t: &String, _fr: Option<String>, _to: Option<String>) -> Option<
     let collection = db.collection::<Payload>("device_data");
 
     let pipeline = vec![
-        doc! {"$match": {"timeSeriesId": t }},
+        doc! {"$match": {"timeSeriesId": {
+                "$in": t
+            }
+        }},
         doc! {"$sort": {"timeStamp": -1 }},
     ];
 
