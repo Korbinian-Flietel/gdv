@@ -3,20 +3,6 @@ use mongodb::{bson::doc, sync::Client};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct Device {
-    deviceId: String,
-    pub timeSeries: Vec<TimeSeries>,
-}
-
-#[derive(Debug, Serialize, Deserialize, Clone)]
-pub struct TimeSeries {
-    pub timeSeriesId: String,
-    pub timestamps: Vec<String>,
-    pub values: Vec<f64>,
-    error: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
 pub struct Payload {
     pub city: String,
     pub timeSeriesId: String,
@@ -31,9 +17,14 @@ pub fn get_data(t: Vec<&str>, _fr: Option<String>, _to: Option<String>) -> Optio
 
     let collection = db.collection::<Payload>("device_data");
 
+    let date = chrono::Local::now().timestamp() - (31556952 * 5);
+
     let pipeline = vec![
         doc! {"$match": {"timeSeriesId": {
                 "$in": t
+            },
+            "timeStamp": {
+                "$gte": date
             }
         }},
         doc! {"$sort": {"timeStamp": -1 }},
