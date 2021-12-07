@@ -2,6 +2,7 @@
 #[macro_use]
 extern crate rocket;
 
+mod cors;
 use test_mango::*;
 
 #[get("/")]
@@ -21,5 +22,7 @@ fn get_mvv_data(typ: String, from: Option<String>, to: Option<String>) -> String
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![index, get_mvv_data])
+    rocket::build()
+        .attach(cors::CORS)
+        .mount("/", routes![index, get_mvv_data])
 }
