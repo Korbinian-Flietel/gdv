@@ -12,14 +12,19 @@ fn index() -> &'static str {
     "Servus das ist die API von team Gelb!"
 }
 
-#[get("/get_mvv_data?<typ>&<from>&<to>")]
-fn get_mvv_data(typ: String, from: Option<String>, to: Option<String>, db: &State<Db>) -> String {
-    let x = typ.split(",").collect();
-    let v = get_data(x, from, to, db);
-    match v {
-        Some(t) => serde_json::to_string(&t).unwrap(),
-        None => format!("No such air property named: \"{}\" in mvv Data!", typ),
+#[get("/get_cached_data")]
+fn get_cached_data(db: &State<Db>, cache: &State<Wraper>) -> String {
+    let r1 = cache.cache.read().unwrap();
+    println!("{}", r1.data.len());
+    if chrono::Local::now().timestamp() - r1.last_update > 86400 {
+        drop(r1);
+        println!("updating cache!");
+        let mut w = cache.cache.write().unwrap();
+        w.update(db);
+        w.last_update = chrono::Local::now().timestamp();
+        return serde_json::to_string(&w.data).unwrap();
     }
+    serde_json::to_string(&r1.data).unwrap()
 }
 
 #[launch]
@@ -31,6 +36,7 @@ fn rocket() -> _ {
             )
             .database("gdv"),
         })
+        .manage(Wraper::new())
         .attach(cors::CORS)
-        .mount("/", routes![index, get_mvv_data])
+        .mount("/", routes![index, get_cached_data])
 }
