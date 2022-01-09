@@ -73,7 +73,7 @@ pub fn init_cache() -> Option<Vec<Payload>> {
         .database("gdv");
     let collection = client.collection::<Payload>("device_data");
 
-    let date = chrono::Local::now().timestamp() - (31556952 * 5);
+    let date = chrono::Local::now().timestamp() - (31556952 * 3);
 
     let pipeline = vec![
         doc! {"$match": {"timeStamp": {
